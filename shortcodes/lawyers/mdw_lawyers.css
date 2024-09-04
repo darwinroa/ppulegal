@@ -1,0 +1,11 @@
+.mdw__lawyers_section .mdw__content_loop-grid {
+  display: flex;
+  align-items: stretch;
+  flex-wrap: wrap;
+  gap: 10px;
+  padding-top: 40px;
+}
+
+.mdw__lawyers_section .mdw__content_loop-grid .elementor{
+	width: calc(25% - 8px);
+}
