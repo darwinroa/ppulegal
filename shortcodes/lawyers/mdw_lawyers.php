@@ -13,7 +13,7 @@ if (!function_exists('mdw_lawyers_function')) {
     $args = array(
       'post_type'       => 'bd-abogados',
       'posts_per_page'  => $post_per_page,
-      'orderby'         => 'name',
+      'orderby'         => 'title',
       'order'           => 'ASC',
     );
     $query_loop = mdw_query_lawyers_loop($args);
