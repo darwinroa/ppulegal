@@ -16,11 +16,32 @@ if (!function_exists('mdw_lawyers_function')) {
       'orderby'         => 'title',
       'order'           => 'ASC',
     );
-    $query_loop = mdw_query_lawyers_loop($args);
+    $query_loop = mdw_query_lawyers_loop($args); // Obtiene el html del grid de todos los abogados
+
+    /**
+     * Array con las taxonomías necesarias para el filtro
+     */
+    $taxonomies = array(
+      array(
+        'slug' => 'areas-practica',
+        'name' => 'Áreas de Práctica'
+      ),
+      array(
+        'slug' => 'pais',
+        'name' => 'País'
+      ),
+      array(
+        'slug' => 'roles',
+        'name' => 'Rol'
+      )
+    );
+    $form_ID = 'mdw-filter-lawyers';
+    $filterHTML = mdw_html_filter_form($taxonomies, $form_ID);
     ob_start();
     $html = '';
     $html .= "
       <div id='mdw__lawyers_section' class='mdw__lawyers_section'>
+        $filterHTML
         <div class='mdw__content_loop'>
           <div class='mdw__content_loop-grid'>
             $query_loop
