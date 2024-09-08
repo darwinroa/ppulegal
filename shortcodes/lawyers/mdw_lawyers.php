@@ -16,7 +16,9 @@ if (!function_exists('mdw_lawyers_function')) {
      * Aquí se optiene el Loop inicial al momento de cargar la web
      */
     $post_per_page = 16;
-    $roles = ['socio', 'senior-counsel', 'director', 'abogado', 'socio'];
+    $settintgs = get_page_by_path('settings', OBJECT, 'ppu-legal-settgins');
+    $settintgsID = $settintgs->ID;
+    $roles = get_field('prioridad_roles', $settintgsID);
     $query_loop = '';
     foreach ($roles as $rol) {
       $args = array(
@@ -28,7 +30,7 @@ if (!function_exists('mdw_lawyers_function')) {
           array(
             'taxonomy'  => 'roles',
             'field'     => 'slug',
-            'terms'     => $rol,
+            'terms'     => $rol['slug'],
           )
         )
       );
