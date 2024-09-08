@@ -16,13 +16,24 @@ if (!function_exists('mdw_lawyers_function')) {
      * Aquí se optiene el Loop inicial al momento de cargar la web
      */
     $post_per_page = 16;
-    $args = array(
-      'post_type'       => 'bd-abogados',
-      'posts_per_page'  => $post_per_page,
-      'orderby'         => 'title',
-      'order'           => 'ASC',
-    );
-    $query_loop = mdw_query_lawyers_loop($args); // Obtiene el html del grid de todos los abogados
+    $roles = ['socio', 'senior-counsel', 'director', 'abogado', 'socio'];
+    $query_loop = '';
+    foreach ($roles as $rol) {
+      $args = array(
+        'post_type'       => 'bd-abogados',
+        'posts_per_page'  => $post_per_page,
+        'orderby'         => 'title',
+        'order'           => 'ASC',
+        'tax_query'       => array(
+          array(
+            'taxonomy'  => 'roles',
+            'field'     => 'slug',
+            'terms'     => $rol,
+          )
+        )
+      );
+      $query_loop .= mdw_query_lawyers_loop($args); // Obtiene el html del grid de todos los abogados
+    }
 
     /**
      * Array con las taxonomías necesarias para el filtro
@@ -81,7 +92,7 @@ function mdw_query_lawyers_loop($args)
     endwhile;
     wp_reset_postdata(); // Resetea los datos del post
     $html .= ob_get_clean();
-  else : $html .= "<div class='mdw__without-results'>No more results</div>";
+  else : $html .= "";
   endif;
   return $html;
 }
