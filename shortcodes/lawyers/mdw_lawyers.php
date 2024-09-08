@@ -155,3 +155,21 @@ if (!function_exists('mdw_lawyer_ajax_filter')) {
     wp_die();
   }
 }
+
+/**
+ * Shortcode para imprimir el rol en masculino o femenino según sea el caso
+ */
+add_shortcode('mdw_gender_rol', 'mdw_gender_rol_func');
+function mdw_gender_rol_func()
+{
+  $gender = get_field('genero');
+  $roles = get_the_terms(get_the_ID(), 'roles');
+
+  if (!empty($roles) && !is_wp_error($roles)) {
+    foreach ($roles as $rol) {
+      $rolFemale = get_field('rol_femenino', 'roles_' . $rol->term_id);
+      $rolGender = $gender['value'] === 'h' ? $rol->name : $rolFemale;
+      return $rolGender;
+    }
+  }
+}
