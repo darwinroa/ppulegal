@@ -38,13 +38,13 @@ jQuery(document).ready(function($) {
         country,
         rol
       },
-      // beforeSend: function(){
-      //   const loaderUrl = wp_ajax.theme_directory_uri + '/inc/img/ri-preloader.svg';
-      //   const loaderIcon = `<div class='mdw-loader-ajax' bis_skin_checked='1'><img id='mdw__loadmore-icon' height='20' width='20' decoding='async' alt='Loading' data-src='${loaderUrl}' class='ls-is-cached lazyloaded e-font-icon-svg e-fas-spinner eicon-animation-spin' src='${loaderUrl}'></div>`;
-      //   isLoadMore ||  $('#mdw__lawyers_section .mdw__content_loop-grid').empty();
-      //   $('#mdw__lawyers_section .mdw__content-button-loadmore').append(loaderIcon);
-      //   $('#mdw__lawyers_section .mdw__button-loadmore').hide();
-      // },
+      beforeSend: function(){
+        const loaderUrl = wp_ajax.theme_directory_uri + '/assets/img/ri-preloader.svg';
+        const loaderIcon = `<div class='mdw-loader-ajax' bis_skin_checked='1'><img id='mdw__loadmore-icon' height='20' width='20' decoding='async' alt='Loading' data-src='${loaderUrl}' class='ls-is-cached lazyloaded e-font-icon-svg e-fas-spinner eicon-animation-spin' src='${loaderUrl}'></div>`;
+        isLoadMore ||  $('#mdw__lawyers_section .mdw__content_loop-grid').empty();
+        $('#mdw__lawyers_section .mdw__content_button-loadmore').append(loaderIcon);
+        $('#mdw__lawyers_section .mdw__button_loadmore').hide();
+      },
       success: function(response) {
         if (response.success) {
           $('#mdw__lawyers_section .mdw__button-loadmore').show();

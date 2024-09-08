@@ -41,8 +41,13 @@ if (!function_exists('mdw_lawyers_function')) {
         'name' => 'Rol'
       )
     );
+    // HTML para el filtrado de los abogados
     $form_ID = 'filter-lawyers';
     $filterHTML = mdw_html_filter_form($taxonomies, $form_ID);
+
+    // HTML para el botón de cargar más
+    $button_ID = 'loadmore-members';
+    $loadMoreButton = mdw_html_loadmore_button($button_ID);
     ob_start();
     $html = '';
     $html .= "
@@ -52,6 +57,7 @@ if (!function_exists('mdw_lawyers_function')) {
           <div class='mdw__content_loop-grid'>
             $query_loop
           </div>
+          $loadMoreButton
         </div>
       </div>
     ";

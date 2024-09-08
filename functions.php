@@ -45,3 +45,4 @@ require 'shortcodes/lawyers/mdw_lawyers.php'; // Abogados
 ///////////////////////UTILIDADES GENRALES/////////////////////////////
 ///////////////////////////////////////////////////////////////////////
 require 'utilities/mdw_html_filter.php'; // Filters HTML
+require 'utilities/mdw_load_more_button.php'; // Button Load More
