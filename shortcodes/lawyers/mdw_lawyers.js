@@ -2,6 +2,17 @@ jQuery(document).ready(function($) {
   var page = 1; // Inicializando el paginado
   var isLoadMore = false;
 
+  // Filtro por letras
+  $(document).on('click', '.letter-filter', function() {
+    var letter = $(this).data('letter');
+    $('.letter-filter').removeClass('active');
+    $(this).addClass('active');
+    // $('#mdw__letter-filter').val(letter);
+    page = 1; // Reinicia la paginación
+    isLoadMore = false;
+    mdwLawyersAjax(page);
+  });
+
   // Esto se ejecuta cuando se presiona sobre el botón de filtrar
   // De modo que el filtro se realiza tomando los datos seleccionados
   $('#mdw__button-filter-lawyers').on('click', function() {
@@ -25,7 +36,8 @@ jQuery(document).ready(function($) {
     const country = $('#pais').val();
     const rol = $('#roles').val();
     const search = $('#mdw-search-field').val(); // Nuevo campo de búsqueda
-
+    const letter = $('.letter-filter.active').data('letter'); // Filtro por letras
+    
     $.ajax({
       url: wp_ajax.ajax_url,
       type: 'post',
@@ -36,7 +48,8 @@ jQuery(document).ready(function($) {
         practiceArea,
         country,
         rol,
-        search // Enviar campo de búsqueda en la solicitud
+        search,
+        letter,
       },
       beforeSend: function() {
         const loaderUrl = wp_ajax.theme_directory_uri + '/assets/img/ri-preloader.svg';

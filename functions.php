@@ -46,4 +46,5 @@ require 'shortcodes/lawyers/mdw_lawyers.php'; // Abogados
 ///////////////////////////////////////////////////////////////////////
 require 'utilities/mdw_html_filter.php'; // Filters HTML
 require 'utilities/mdw_html_search_input.php'; // Search input filter
+require 'utilities/mdw_letter_html_filter.php'; // Letter filter
 require 'utilities/mdw_load_more_button.php'; // Button Load More

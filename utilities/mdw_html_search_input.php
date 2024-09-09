@@ -4,7 +4,7 @@
  * Retorna el HTML del campo de búsqueda
  * Requiere un ID para el campo de búsqueda
  */
-function mdw_html_search_field($id)
+function mdw_html_search_field()
 {
   return "
     <div class='mdw__search_field'>

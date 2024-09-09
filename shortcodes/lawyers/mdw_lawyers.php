@@ -114,6 +114,7 @@ if (!function_exists('mdw_lawyer_ajax_filter')) {
     $country = isset($_POST['country']) ? sanitize_text_field($_POST['country']) : '';
     $roles = isset($_POST['rol']) ? sanitize_text_field($_POST['rol']) : '';
     $search = isset($_POST['search']) ? sanitize_text_field($_POST['search']) : '';
+    $letter = isset($_POST['letter']) ? sanitize_text_field($_POST['letter']) : '';
 
     /**
      * Construyendo los argumentos necesarios para el Query
@@ -149,7 +150,7 @@ if (!function_exists('mdw_lawyer_ajax_filter')) {
       'posts_per_page' => $post_per_page,
       'tax_query' => $tax_query,
       'paged' => $page,
-      's' => $search // Agrega el campo de búsqueda aquí
+      's' => $letter ? $letter : $search,
     );
 
     $query_loop = mdw_query_lawyers_loop($args);
@@ -178,3 +179,23 @@ function mdw_gender_rol_func()
     }
   }
 }
+
+
+function filter_posts_where_title_only($where, $wp_query)
+{
+  if (isset($wp_query->query_vars['s']) && !empty($wp_query->query_vars['s'])) {
+    global $wpdb;
+    $search = esc_sql($wp_query->query_vars['s']);
+    $where .= " AND {$wpdb->posts}.post_title LIKE '%{$search}%'";
+  }
+  return $where;
+}
+
+add_filter('posts_where', 'filter_posts_where_title_only', 10, 2);
+
+function remove_filter_posts_where()
+{
+  remove_filter('posts_where', 'filter_posts_where_title_only', 10, 2);
+}
+
+add_action('wp', 'remove_filter_posts_where');
