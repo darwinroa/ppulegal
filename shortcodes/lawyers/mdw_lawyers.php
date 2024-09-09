@@ -112,7 +112,7 @@ if (!function_exists('mdw_lawyer_ajax_filter')) {
     $page = $_POST['page'];
     $practice_area = isset($_POST['practiceArea']) ? sanitize_text_field($_POST['practiceArea']) : '';
     $country = isset($_POST['country']) ? sanitize_text_field($_POST['country']) : '';
-    $roles = isset($_POST['rol']) ? sanitize_text_field($_POST['rol']) : '';
+    $rol = isset($_POST['rol']) ? sanitize_text_field($_POST['rol']) : '';
     $search = isset($_POST['search']) ? sanitize_text_field($_POST['search']) : '';
     $letter = isset($_POST['letter']) ? sanitize_text_field($_POST['letter']) : '';
 
@@ -134,26 +134,63 @@ if (!function_exists('mdw_lawyer_ajax_filter')) {
         'terms' => intval($country)
       );
     }
-    if ($roles) {
+    if ($rol) {
       $tax_query[] = array(
         'taxonomy' => 'roles',
         'field' => 'term_id',
-        'terms' => intval($roles)
+        'terms' => intval($rol)
       );
     }
 
     $post_per_page = 16;
-    $args = array(
-      'post_type' => 'bd-abogados',
-      'orderby' => 'title',
-      'order' => 'ASC',
-      'posts_per_page' => $post_per_page,
-      'tax_query' => $tax_query,
-      'paged' => $page,
-      's' => $letter ? $letter : $search,
-    );
 
-    $query_loop = mdw_query_lawyers_loop($args);
+    if ($rol) {
+      $args = array(
+        'post_type'       => 'bd-abogados',
+        'posts_per_page'  => $post_per_page,
+        'orderby'         => 'title',
+        'order'           => 'ASC',
+        'tax_query'       => $tax_query,
+        'paged'           => $page,
+        's'               => $letter ? $letter : $search,
+      );
+
+      $query_loop = mdw_query_lawyers_loop($args);
+    } else {
+      $settintgs = get_page_by_path('settings', OBJECT, 'ppu-legal-settgins');
+      $settintgsID = $settintgs->ID;
+      $roles = get_field('prioridad_roles', $settintgsID);
+      $query_loop = '';
+      foreach ($roles as $rol) {
+        $args = array(
+          'post_type'       => 'bd-abogados',
+          'posts_per_page'  => $post_per_page,
+          'orderby'         => 'title',
+          'order'           => 'ASC',
+          'tax_query'       => array_merge($tax_query, array(
+            array(
+              'taxonomy'  => 'roles',
+              'field'     => 'slug',
+              'terms'     => $rol['slug'],
+            )
+          )),
+          'paged'           => $page,
+          's'               => $letter ? $letter : $search,
+        );
+        $query_loop .= mdw_query_lawyers_loop($args); // Obtiene el html del grid de todos los abogados
+      }
+    }
+    // $args = array(
+    //   'post_type' => 'bd-abogados',
+    //   'orderby' => 'title',
+    //   'order' => 'ASC',
+    //   'posts_per_page' => $post_per_page,
+    //   'tax_query' => $tax_query,
+    //   'paged' => $page,
+    //   's' => $letter ? $letter : $search,
+    // );
+
+    // $query_loop = mdw_query_lawyers_loop($args);
     $html = $query_loop;
 
     wp_send_json_success($html);
