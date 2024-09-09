@@ -113,32 +113,34 @@ if (!function_exists('mdw_lawyer_ajax_filter')) {
     $practice_area = isset($_POST['practiceArea']) ? sanitize_text_field($_POST['practiceArea']) : '';
     $country = isset($_POST['country']) ? sanitize_text_field($_POST['country']) : '';
     $roles = isset($_POST['rol']) ? sanitize_text_field($_POST['rol']) : '';
+    $search = isset($_POST['search']) ? sanitize_text_field($_POST['search']) : '';
 
     /**
      * Construyendo los argumentos necesarios para el Query
      */
     $tax_query = array('relation' => 'AND');
     if ($practice_area) {
-      $tax_query[] =  array(
+      $tax_query[] = array(
         'taxonomy' => 'areas-practica',
         'field' => 'term_id',
         'terms' => intval($practice_area)
       );
     }
     if ($country) {
-      $tax_query[] =  array(
+      $tax_query[] = array(
         'taxonomy' => 'pais',
         'field' => 'term_id',
         'terms' => intval($country)
       );
     }
     if ($roles) {
-      $tax_query[] =  array(
+      $tax_query[] = array(
         'taxonomy' => 'roles',
         'field' => 'term_id',
         'terms' => intval($roles)
       );
     }
+
     $post_per_page = 16;
     $args = array(
       'post_type' => 'bd-abogados',
@@ -146,8 +148,10 @@ if (!function_exists('mdw_lawyer_ajax_filter')) {
       'order' => 'ASC',
       'posts_per_page' => $post_per_page,
       'tax_query' => $tax_query,
-      'paged' => $page
+      'paged' => $page,
+      's' => $search // Agrega el campo de búsqueda aquí
     );
+
     $query_loop = mdw_query_lawyers_loop($args);
     $html = $query_loop;
 
@@ -155,6 +159,7 @@ if (!function_exists('mdw_lawyer_ajax_filter')) {
     wp_die();
   }
 }
+
 
 /**
  * Shortcode para imprimir el rol en masculino o femenino según sea el caso

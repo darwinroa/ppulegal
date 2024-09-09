@@ -1,32 +1,31 @@
 jQuery(document).ready(function($) {
   var page = 1; // Inicializando el paginado
   var isLoadMore = false;
+
   // Esto se ejecuta cuando se presiona sobre el botón de filtrar
   // De modo que el filtro se realiza tomando los datos seleccionados
   $('#mdw__button-filter-lawyers').on('click', function() {
     page = 1; // Inicializando el paginado cada vez que se desea filtrar
     isLoadMore = false;
     mdwLawyersAjax(page);
-  })
-  
+  });
+
   // Esto se ejecuta cuando se presiona sobre el botón de Load More
-  // Realizando una petición de más post.
+  // Realizando una petición de más posts.
   // Considerando también los datos seleccionados para el filtro
   $('#mdw__button-loadmore-lawyers').on('click', function() {
     page++;
     isLoadMore = true;
     mdwLawyersAjax(page);
-  })
-  
+  });
+
   // Función Ajax para la petición del filtro y el cargar más
-  function mdwLawyersAjax (page) {
+  function mdwLawyersAjax(page) {
     const practiceArea = $('#areas-practica').val();
     const country = $('#pais').val();
     const rol = $('#roles').val();
-    console.log('Area de practoca', practiceArea);
-    console.log('País', country);
-    console.log('Rol', rol);
-    console.log('page', page);
+    const search = $('#mdw-search-field').val(); // Nuevo campo de búsqueda
+
     $.ajax({
       url: wp_ajax.ajax_url,
       type: 'post',
@@ -36,12 +35,13 @@ jQuery(document).ready(function($) {
         page,
         practiceArea,
         country,
-        rol
+        rol,
+        search // Enviar campo de búsqueda en la solicitud
       },
-      beforeSend: function(){
+      beforeSend: function() {
         const loaderUrl = wp_ajax.theme_directory_uri + '/assets/img/ri-preloader.svg';
-        const loaderIcon = `<div class='mdw-loader-ajax' bis_skin_checked='1'><img id='mdw__loadmore-icon' height='20' width='20' decoding='async' alt='Loading' data-src='${loaderUrl}' class='ls-is-cached lazyloaded e-font-icon-svg e-fas-spinner eicon-animation-spin' src='${loaderUrl}'></div>`;
-        isLoadMore ||  $('#mdw__lawyers_section .mdw__content_loop-grid').empty();
+        const loaderIcon = `<div class='mdw-loader-ajax'><img id='mdw__loadmore-icon' height='20' width='20' decoding='async' alt='Loading' data-src='${loaderUrl}' class='ls-is-cached lazyloaded e-font-icon-svg e-fas-spinner eicon-animation-spin' src='${loaderUrl}'></div>`;
+        isLoadMore || $('#mdw__lawyers_section .mdw__content_loop-grid').empty();
         $('#mdw__lawyers_section .mdw__content_button-loadmore').append(loaderIcon);
         $('#mdw__lawyers_section .mdw__button_loadmore').hide();
       },
@@ -49,15 +49,20 @@ jQuery(document).ready(function($) {
         if (response.success) {
           $('#mdw__lawyers_section .mdw__button-loadmore').show();
           $('.mdw-loader-ajax').remove();
-          if(isLoadMore) {
+          if (isLoadMore) {
             $('#mdw__lawyers_section .mdw__content_loop-grid').append(response.data);
           } else {
             $('#mdw__lawyers_section .mdw__content_loop-grid').html(response.data);
           }
         } else {
-            $('#mdw__lawyers_section .mdw__content_loop-grid').html('<p>Hubo un error en la solicitud.</p>');
+          $('#mdw__lawyers_section .mdw__content_loop-grid').html('<p>Hubo un error en la solicitud.</p>');
         }
       }
-    })
+    });
   }
-})
+
+  // Evento para hacer búsqueda en tiempo real
+  $('#search-field').on('keyup', function() {
+    $('#mdw__button-filter-lawyers').click();
+  });
+});
