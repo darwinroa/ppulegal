@@ -18,7 +18,7 @@ if (!function_exists('mdw_lawyers_function')) {
      * Esto con la intención de poder agrupar a los abogados en 
      * órden de prioridad por Rol y Alfabéticamente por su apellido
      */
-    $post_per_page = 16;
+    $post_per_page = -1;
     $settintgs = get_page_by_path('settings', OBJECT, 'ppu-legal-settgins');
     $settintgsID = $settintgs->ID;
     $roles = get_field('prioridad_roles', $settintgsID);
@@ -145,7 +145,7 @@ if (!function_exists('mdw_lawyer_ajax_filter')) {
       );
     }
 
-    $post_per_page = 16;
+    $post_per_page = -1;
 
     /**
      * Si dentro de las opciones del fitro se ha seleccionado un rol, 
