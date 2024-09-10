@@ -13,7 +13,10 @@ if (!function_exists('mdw_lawyers_function')) {
     ));
 
     /**
-     * Aquí se optiene el Loop inicial al momento de cargar la web
+     * Aquí se optiene el Loop inicial al momento de cargar la web.
+     * Lo que se hace es realizar un query por cada rol de abogado
+     * Esto con la intención de poder agrupar a los abogados en 
+     * órden de prioridad por Rol y Alfabéticamente por su apellido
      */
     $post_per_page = 16;
     $settintgs = get_page_by_path('settings', OBJECT, 'ppu-legal-settgins');
@@ -144,6 +147,13 @@ if (!function_exists('mdw_lawyer_ajax_filter')) {
 
     $post_per_page = 16;
 
+    /**
+     * Si dentro de las opciones del fitro se ha seleccionado un rol, 
+     * entonces se realiza el query con los $args que siguen.
+     * Pero, si no incluye ningún rol, entonces se realiza un query por cada rol que existe
+     * El listado de cada rol se obtiene de las configuraciones del proyecto
+     * donde se están cargando el nombre de cada Rol según su prioridad. 
+     */
     if ($rol) {
       $args = array(
         'post_type'       => 'bd-abogados',
@@ -180,17 +190,6 @@ if (!function_exists('mdw_lawyer_ajax_filter')) {
         $query_loop .= mdw_query_lawyers_loop($args); // Obtiene el html del grid de todos los abogados
       }
     }
-    // $args = array(
-    //   'post_type' => 'bd-abogados',
-    //   'orderby' => 'title',
-    //   'order' => 'ASC',
-    //   'posts_per_page' => $post_per_page,
-    //   'tax_query' => $tax_query,
-    //   'paged' => $page,
-    //   's' => $letter ? $letter : $search,
-    // );
-
-    // $query_loop = mdw_query_lawyers_loop($args);
     $html = $query_loop;
 
     wp_send_json_success($html);
