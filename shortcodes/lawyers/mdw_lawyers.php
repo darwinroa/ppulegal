@@ -93,7 +93,7 @@ function mdw_query_lawyers_loop($args)
   if ($query->have_posts()) :
     ob_start();
     while ($query->have_posts()) : $query->the_post();
-      $html .= do_shortcode('[elementor-template id="116"]');
+      $html .= do_shortcode('[elementor-template id="309"]');
     endwhile;
     wp_reset_postdata(); // Resetea los datos del post
     $html .= ob_get_clean();
