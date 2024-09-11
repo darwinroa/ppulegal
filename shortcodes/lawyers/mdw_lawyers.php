@@ -86,14 +86,18 @@ if (!function_exists('mdw_lawyers_function')) {
  * Retorna el HTML del loop para la sección de Abogados
  * $args son los argumentos necesarios para el loop
  */
-function mdw_query_lawyers_loop($args)
+function mdw_query_lawyers_loop($args, $letter = '')
 {
   $query = new WP_Query($args);
   $html = "";
   if ($query->have_posts()) :
     ob_start();
     while ($query->have_posts()) : $query->the_post();
-      $html .= do_shortcode('[elementor-template id="309"]');
+      $lastname = get_field('apellido');
+      if ($letter) {
+        $letter === $lastname[0] ?
+          $html .= do_shortcode('[elementor-template id="309"]') : '';
+      } else $html .= do_shortcode('[elementor-template id="309"]');
     endwhile;
     wp_reset_postdata(); // Resetea los datos del post
     $html .= ob_get_clean();
@@ -162,10 +166,10 @@ if (!function_exists('mdw_lawyer_ajax_filter')) {
         'order'           => 'ASC',
         'tax_query'       => $tax_query,
         'paged'           => $page,
-        's'               => $letter ? $letter : $search,
+        's'               => $letter ? '' : $search,
       );
 
-      $query_loop = mdw_query_lawyers_loop($args);
+      $query_loop = mdw_query_lawyers_loop($args, $letter);
     } else {
       $settintgs = get_page_by_path('settings', OBJECT, 'ppu-legal-settgins');
       $settintgsID = $settintgs->ID;
@@ -185,9 +189,9 @@ if (!function_exists('mdw_lawyer_ajax_filter')) {
             )
           )),
           'paged'           => $page,
-          's'               => $letter ? $letter : $search,
+          's'               => $letter ? '' : $search,
         );
-        $query_loop .= mdw_query_lawyers_loop($args); // Obtiene el html del grid de todos los abogados
+        $query_loop .= mdw_query_lawyers_loop($args, $letter); // Obtiene el html del grid de todos los abogados
       }
     }
     $html = $query_loop;
