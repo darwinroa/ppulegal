@@ -7,10 +7,9 @@ jQuery(document).ready(function($) {
     var letter = $(this).data('letter');
     $('.letter-filter').removeClass('active');
     $(this).addClass('active');
-    // $('#mdw__letter-filter').val(letter);
     page = 1; // Reinicia la paginación
     isLoadMore = false;
-    mdwLawyersAjax(page);
+    mdwLawyersAjax(page, letter);
   });
 
   // Esto se ejecuta cuando se presiona sobre el botón de filtrar
@@ -31,12 +30,11 @@ jQuery(document).ready(function($) {
   });
 
   // Función Ajax para la petición del filtro y el cargar más
-  function mdwLawyersAjax(page) {
+  function mdwLawyersAjax(page, letter= null) {
     const practiceArea = $('#areas-practica').val();
     const country = $('#pais').val();
     const rol = $('#roles').val();
     const search = $('#mdw-search-field').val(); // Nuevo campo de búsqueda
-    const letter = $('.letter-filter.active').data('letter'); // Filtro por letras
     
     $.ajax({
       url: wp_ajax.ajax_url,
