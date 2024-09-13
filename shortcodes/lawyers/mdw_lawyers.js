@@ -1,6 +1,7 @@
 jQuery(document).ready(function($) {
   var page = 1; // Inicializando el paginado
   var isLoadMore = false;
+  var ajaxRequest; // Variable para almacenar la solicitud AJAX activa
 
   // Filtro por letras
   $(document).on('click', '.letter-filter', function() {
@@ -19,8 +20,23 @@ jQuery(document).ready(function($) {
     isLoadMore = false;
     mdwLawyersAjax(page);
   });
+
+  // Evento para hacer búsqueda en tiempo real
+  $('#mdw-search-field').on('keyup', function() {
+    // Reiniciar la paginación cuando se empieza a escribir
+    page = 1;
+    isLoadMore = false;
+
+    // Si ya hay una solicitud en curso, cancelarla
+    if (ajaxRequest) {
+      ajaxRequest.abort();
+    }
+
+    // Realizar la nueva búsqueda al escribir
+    ajaxRequest = mdwLawyersAjax(page);
+  });
   
-  
+  // Se ejecuta al momento de presionar sobre el botón de reset
   $('#mdw__button-reset').on('click', function() {
     page = 1; // Inicializando el paginado cada vez que se desea filtrar
     isLoadMore = false;
@@ -45,7 +61,8 @@ jQuery(document).ready(function($) {
     const rol = $('#roles').val();
     const search = $('#mdw-search-field').val(); // Nuevo campo de búsqueda
     
-    $.ajax({
+    // Retornar la solicitud AJAX para poder cancelarla si es necesario
+    return $.ajax({
       url: wp_ajax.ajax_url,
       type: 'post',
       data: {
@@ -62,7 +79,7 @@ jQuery(document).ready(function($) {
         const loaderUrl = wp_ajax.theme_directory_uri + '/assets/img/ri-preloader.svg';
         const loaderIcon = `<div class='mdw-loader-ajax'><img id='mdw__loadmore-icon' height='20' width='20' decoding='async' alt='Loading' data-src='${loaderUrl}' class='ls-is-cached lazyloaded e-font-icon-svg e-fas-spinner eicon-animation-spin' src='${loaderUrl}'></div>`;
         isLoadMore || $('#mdw__lawyers_section .mdw__content_loop-grid').empty();
-        $('#mdw__lawyers_section .mdw__content_button-loadmore').append(loaderIcon);
+        $('#mdw__lawyers_section .mdw__content_button-loadmore').html(loaderIcon);
         $('#mdw__lawyers_section .mdw__button_loadmore').hide();
       },
       success: function(response) {
