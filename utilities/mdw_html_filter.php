@@ -25,7 +25,6 @@ function mdw_html_filter_form($taxonomies, $form_ID)
     if ($terms = mdw_filter_options($taxonomy['slug'], $order)) $html .= mdw_html_filter_select($taxonomy['slug'], $taxonomy['name'], $terms);
   endforeach;
   $html .= $letterFilter;
-  $html .= "<button type='button' id='mdw__button-$form_ID' class='filter-buton'>Filter</button>";
   $html .= "<button type='reset' id='mdw__button-reset' class='reset-buton'>Limpiar</button>";
   $html .= "</form></div>";
   return $html;

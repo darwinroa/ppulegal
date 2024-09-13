@@ -12,11 +12,20 @@ jQuery(document).ready(function($) {
     mdwLawyersAjax(page, letter);
   });
 
-  // Esto se ejecuta cuando se presiona sobre el botón de filtrar
+  // Esto se ejecuta cuando en cada cambio ocurrido en el formulario de filtro
   // De modo que el filtro se realiza tomando los datos seleccionados
-  $('#mdw__button-filter-lawyers').on('click', function() {
+  $(document).on('change', '#mdw__form-filter-lawyers', function() {
     page = 1; // Inicializando el paginado cada vez que se desea filtrar
     isLoadMore = false;
+    mdwLawyersAjax(page);
+  });
+  
+  
+  $('#mdw__button-reset').on('click', function() {
+    page = 1; // Inicializando el paginado cada vez que se desea filtrar
+    isLoadMore = false;
+    // Reiniciar el formulario de filtros
+    $('#mdw__form-filter-lawyers')[0].reset();
     mdwLawyersAjax(page);
   });
 
