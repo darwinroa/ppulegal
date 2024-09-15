@@ -1,0 +1,21 @@
+.mdw__lawyer_education {
+  margin: 2rem 0;
+  font-family: "Libre Franklin", Sans-serif;
+}
+
+.mdw-fw300 {
+  font-size: 14px;
+  font-weight: 300;
+}
+
+.mdw-fw400 {
+  font-weight: 400;
+}
+
+.mdw-fw700 {
+  font-weight: 700;
+}
+
+.mdw-fup {
+  text-transform: uppercase;
+}
