@@ -7,20 +7,22 @@ function lawyer_education_function()
 
   $allEducation = get_field('educacion');
   $html = '';
-  foreach ($allEducation as $education) {
-    $year = $education['ano_estudio'];
-    $degree = $education['titulo'];
-    $career = $education['carrera'];
-    $university = $education['universidad'];
+  if (! empty($allEducation) && ! is_wp_error($allEducation)) {
+    foreach ($allEducation as $education) {
+      $year = $education['ano_estudio'];
+      $degree = $education['titulo'];
+      $career = $education['carrera'];
+      $university = $education['universidad'];
 
-    $html .= "
-      <div class='mdw__lawyer_education'>
-        <div class='mdw__education_year mdw-fw300'>$year</div>
-        <div class='mdw__education_degree mdw-fw400 mdw-fup'>$degree</div>
-        <div class='mdw__education_career mdw-fw400'$career></div>
-        <div class='mdw__education_university mdw-fw700'>$university</div>
-      </div>
-    ";
+      $html .= "
+        <div class='mdw__lawyer_education'>
+          <div class='mdw__education_year mdw-fw300'>$year</div>
+          <div class='mdw__education_degree mdw-fw400 mdw-fup'>$degree</div>
+          <div class='mdw__education_career mdw-fw400'$career></div>
+          <div class='mdw__education_university mdw-fw700'>$university</div>
+        </div>
+      ";
+    }
   }
   return $html;
 }
@@ -34,18 +36,20 @@ function lawyer_jobs_function()
 
   $allJobs = get_field('informacion_laboral');
   $html = '';
-  foreach ($allJobs as $job) {
-    $year = $job['tiempo_trabajo'];
-    $position = $job['cargo'];
-    $company = $job['lugar'];
+  if (! empty($allJobs) && ! is_wp_error($allJobs)) {
+    foreach ($allJobs as $job) {
+      $year = $job['tiempo_trabajo'];
+      $position = $job['cargo'];
+      $company = $job['lugar'];
 
-    $html .= "
-      <div class='mdw__lawyer_job'>
-        <div class='mdw__job_year mdw-fw300'>$year</div>
-        <div class='mdw__job_position mdw-fw400 mdw-fup'>$position</div>
-        <div class='mdw__job_company mdw-fw700'>$company</div>
-      </div>
-    ";
+      $html .= "
+        <div class='mdw__lawyer_job'>
+          <div class='mdw__job_year mdw-fw300'>$year</div>
+          <div class='mdw__job_position mdw-fw400 mdw-fup'>$position</div>
+          <div class='mdw__job_company mdw-fw700'>$company</div>
+        </div>
+      ";
+    }
   }
   return $html;
 }
@@ -59,18 +63,20 @@ function lawyer_academic_activities_function()
 
   $activities = get_field('actividades_academicas_docencia');
   $html = '';
-  foreach ($activities as $activity) {
-    $year = $activity['tiempo_fecha'];
-    $description = $activity['descripcion_academica'];
-    $ocupation = $activity['cargo'];
+  if (! empty($activities) && ! is_wp_error($activities)) {
+    foreach ($activities as $activity) {
+      $year = $activity['tiempo_fecha'];
+      $description = $activity['descripcion_academica'];
+      $ocupation = $activity['cargo'];
 
-    $html .= "
-      <div class='mdw__lawyer_academic_activities'>
-        <div class='mdw__activity_year mdw-fw300'>$year</div>
-        <div class='mdw__activity_description mdw-fw400'>$description</div>
-        <div class='mdw__activity_ocupation mdw-fw700'>$ocupation</div>
-      </div>
-    ";
+      $html .= "
+        <div class='mdw__lawyer_academic_activities'>
+          <div class='mdw__activity_year mdw-fw300'>$year</div>
+          <div class='mdw__activity_description mdw-fw400'>$description</div>
+          <div class='mdw__activity_ocupation mdw-fw700'>$ocupation</div>
+        </div>
+      ";
+    }
   }
   return $html;
 }
@@ -87,11 +93,13 @@ function lawyer_language_function()
   $html = '';
   $htmlLanguage = '';
   $count = 0;
-  foreach ($languages as $language) {
-    $count++;
-    $languageName = $language->name;
-    $coma = $count === 1 ? '' : '<span>, </span>';
-    $htmlLanguage .= "$coma$languageName";
+  if (! empty($languages) && ! is_wp_error($languages)) {
+    foreach ($languages as $language) {
+      $count++;
+      $languageName = $language->name;
+      $coma = $count === 1 ? '' : '<span>, </span>';
+      $htmlLanguage .= "$coma$languageName";
+    }
   }
   $html .= "
     <div class='lawyer_language'>
