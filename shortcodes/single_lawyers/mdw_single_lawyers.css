@@ -1,6 +1,6 @@
 .mdw__lawyer_education,
 .mdw__lawyer_job,
-.lawyer_academic_activities {
+.mdw__lawyer_academic_activities {
   margin: 2rem 0;
   font-family: "Libre Franklin", Sans-serif;
 }
@@ -20,4 +20,9 @@
 
 .mdw-fup {
   text-transform: uppercase;
+}
+
+.mdw__membership {
+  font-family: "Libre Franklin", Sans-serif;
+  font-size: 16px;
 }
