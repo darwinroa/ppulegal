@@ -36,11 +36,18 @@
 }
 
 /*Estilos para las publicaciones del abogado en el single page*/
+.mdw__lawyer_post-slider {
+  height: 300px;
+}
+
 .mdw__lawyer_post-card {
-  max-width: 200px;
   height: 250px;
   border-radius: 7px;
   box-shadow: 0 0 6px 2px rgba(0,0,0,0.2);
+}
+
+.mdw__lawyer_post-slider .swiper-slide {
+  border-radius: 7px;
 }
 
 .mdw__lawyer_post-card .mdw__card_content-img img {
@@ -53,4 +60,32 @@
 .mdw__lawyer_post-card .mdw__card_content-title {
   line-height: 0;
   padding: 1em;
+}
+
+.mdw__lawyer_post-slider .mdw__swiper-button {
+  top: calc(100% - 1rem);
+}
+
+.mdw__lawyer_post-slider .mdw__swiper-button::after {
+  font-size: 0.8rem;
+}
+
+.mdw__lawyer_post-slider .swiper-button-prev {
+  left: calc(50% - 2rem);
+  background-color: #1B2D4F !important;
+  width: 30px;
+  height: 30px;
+  border-radius: 50% !important;
+  color: white !important;
+  opacity: 1 !important;
+}
+
+.mdw__lawyer_post-slider .swiper-button-next {
+  right: calc(50% - 2rem);
+  background-color: #1B2D4F !important;
+  width: 30px;
+  height: 30px;
+  border-radius: 50% !important;
+  color: white !important;
+  opacity: 1 !important;
 }
