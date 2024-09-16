@@ -142,6 +142,8 @@ function lawyer_posts_function()
   wp_enqueue_style('mdw-education-style', get_stylesheet_directory_uri() . '/shortcodes/single_lawyers/mdw_single_lawyers.css', array(), '1.0');
   wp_enqueue_script('mdw-education-script', get_stylesheet_directory_uri() . '/shortcodes/single_lawyers/mdw_single_lawyers.js', array('jquery'), null, true);
 
+  wp_enqueue_script('swiper-js', 'https://unpkg.com/swiper/swiper-bundle.min.js', array(), '8.4.8', true);
+  wp_enqueue_style('swiper-css', 'https://unpkg.com/swiper/swiper-bundle.min.css', array(), '8.4.8');
 
   $lawyerId = get_the_ID();
 
