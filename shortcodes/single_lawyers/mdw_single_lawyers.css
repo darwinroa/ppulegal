@@ -14,6 +14,14 @@
   font-weight: 400;
 }
 
+.mdw-fw500 {
+  font-family: "Libre Franklin", Sans-serif;
+  font-size: 13px;
+  line-height: 1.2;
+  font-weight: 500;
+  color: #1B2D4F;
+}
+
 .mdw-fw700 {
   font-weight: 700;
 }
@@ -25,4 +33,24 @@
 .mdw__membership {
   font-family: "Libre Franklin", Sans-serif;
   font-size: 16px;
+}
+
+/*Estilos para las publicaciones del abogado en el single page*/
+.mdw__lawyer_post-card {
+  max-width: 200px;
+  height: 250px;
+  border-radius: 7px;
+  box-shadow: 0 0 6px 2px rgba(0,0,0,0.2);
+}
+
+.mdw__lawyer_post-card .mdw__card_content-img img {
+  border-radius: 7px 7px 0 0;
+  height: 170px;
+  width: 100%;
+  object-fit: cover;
+}
+
+.mdw__lawyer_post-card .mdw__card_content-title {
+  line-height: 0;
+  padding: 1em;
 }

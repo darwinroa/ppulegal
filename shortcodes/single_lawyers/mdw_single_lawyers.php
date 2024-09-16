@@ -110,53 +110,6 @@ function lawyer_language_function()
 }
 
 
-
-// add_shortcode('lawyer_posts', 'lawyer_posts_function');
-
-// function lawyer_posts_function()
-// {
-//   wp_enqueue_style('mdw-education-style', get_stylesheet_directory_uri() . '/shortcodes/single_lawyers/mdw_single_lawyers.css', array(), '1.0');
-
-//   // Obtener el ID del abogado actual (post ID en el single de bd-abogados)
-//   $lawyerId = get_the_ID();
-
-//   // Configurar la consulta para obtener los posts de ppulegal relacionados con este abogado
-//   $args = array(
-//     'post_type' => 'ppulegal',
-//     'meta_query' => array(
-//       array(
-//         'key' => 'abogados', // Nombre del ACF de relación
-//         'value' => '"' . $lawyerId . '"',
-//         'compare' => 'LIKE'
-//       )
-//     )
-//   );
-
-//   // Ejecutar la consulta
-//   $query = new WP_Query($args);
-
-//   // Verificar si hay publicaciones relacionadas
-//   if ($query->have_posts()) {
-//     $output = '<ul>';
-
-//     // Recorrer los posts y generar la salida
-//     while ($query->have_posts()) {
-//       $query->the_post();
-//       $output .= '<li><a href="' . get_permalink() . '">' . get_the_title() . '</a></li>';
-//     }
-
-//     $output .= '</ul>';
-//   } else {
-//     $output = '<p>No hay publicaciones relacionadas.</p>';
-//   }
-
-//   // Restaurar el post original
-//   wp_reset_postdata();
-
-//   return $output;
-// }
-
-
 add_shortcode('lawyer_membership', 'lawyer_membership_function');
 
 function lawyer_membership_function()
@@ -178,5 +131,55 @@ function lawyer_membership_function()
           </div>
         ";
   }
+  return $html;
+}
+
+
+add_shortcode('lawyer_posts', 'lawyer_posts_function');
+
+function lawyer_posts_function()
+{
+  wp_enqueue_style('mdw-education-style', get_stylesheet_directory_uri() . '/shortcodes/single_lawyers/mdw_single_lawyers.css', array(), '1.0');
+
+  $lawyerId = get_the_ID();
+
+  $args = array(
+    'post_type' => 'ppulegal',
+    'meta_query' => array(
+      array(
+        'key' => 'abogados',
+        'value' => '"' . $lawyerId . '"',
+        'compare' => 'LIKE'
+      )
+    )
+  );
+
+  $query = new WP_Query($args);
+
+  // Verificar si hay publicaciones relacionadas
+  if ($query->have_posts()) {
+    $html = '';
+
+    // Recorrer los posts y generar la salida
+    while ($query->have_posts()) {
+      $query->the_post();
+      $postURL = get_permalink();
+      $postTitle = get_the_title();
+      $postTitle = mb_strimwidth($postTitle, 0, 45, '...');
+      $postImage = get_the_post_thumbnail(get_the_ID(), 'medium');
+
+      $html .= "
+        <div class='mdw__lawyer_post-card'>
+          <div class='mdw__card_content-img'>$postImage</div>
+          <div class='mdw__card_content-title'>
+            <a href='$postURL' class='mdw-fw500 mdw-fup'>$postTitle</a>
+          </div>
+        </div>
+      ";
+    }
+  }
+
+  wp_reset_postdata();
+
   return $html;
 }
