@@ -53,8 +53,9 @@ if (!function_exists('mdw_lawyers_function')) {
         'name' => 'País'
       ),
       array(
-        'slug' => 'roles',
-        'name' => 'Rol'
+        'slug'  => 'roles',
+        'name'  => 'Rol',
+        'order' => $roles,
       )
     );
     // HTML para el filtrado de los abogados

@@ -36,14 +36,39 @@ function mdw_html_filter_form($taxonomies, $form_ID)
  */
 function mdw_filter_options($taxonomy, $order)
 {
-  return get_terms(
+  $terms = get_terms(
     array(
       'taxonomy'    => $taxonomy,
       'orderby'     => 'name',
-      'order'       => $order,
+      'order'       => gettype($order) == 'string' ? $order : 'ASC',
       'hide_empty'  => false
     )
   );
+
+  // Si se tiene un orden en específico se realiza aquí
+  if (is_array($order)) {
+    // Crear un array para almacenar el orden deseado de los slugs
+    $desired_order = array();
+    foreach ($order as $item) {
+      if (isset($item['slug'])) {
+        $desired_order[] = $item['slug'];
+      }
+    }
+
+    // Reordenar $terms según $order
+    usort($terms, function ($a, $b) use ($desired_order) {
+      $pos_a = array_search($a->slug, $desired_order);
+      $pos_b = array_search($b->slug, $desired_order);
+
+      // Si $pos_a o $pos_b no están en $desired_order, consideramos la posición como -1 (al final)
+      if ($pos_a === false) $pos_a = -1;
+      if ($pos_b === false) $pos_b = -1;
+
+      return $pos_a - $pos_b;
+    });
+  }
+
+  return $terms;
 }
 
 /**
