@@ -89,3 +89,45 @@
   color: white !important;
   opacity: 1 !important;
 }
+
+/*Estilos para los abogados relacionados a una publicacion en el single de publicaciones*/
+.mdw__ppu_lawyers-content {
+  font-family: "Libre Franklin", Sans-serif;
+}
+
+.mdw__ppu_lawyers-content .mdw__ppu_lawyer-card {
+  display: flex;
+  align-items: center;
+  max-width: 400px;
+  box-shadow: 0px 0px 5px 1px rgba(0, 0, 0, 0.19);
+  border-radius: 5px;
+  height: 120px;
+  position: relative;
+  margin-bottom: 1rem;
+}
+
+.mdw__ppu_lawyer-card .mdw__ppu_lawyer-photo img {
+  width: 100px;
+  aspect-ratio: 1;
+  object-fit: cover;
+}
+
+.mdw__ppu_lawyer-card .mdw__ppu_lawyer-link a {
+  color: #00a0af;
+  font-size: 14px;
+  text-decoration: underline;
+}
+
+.mdw__ppu_lawyer-card .mdw__ppu_lawyer-fullname {
+  margin: 0;
+}
+
+.mdw__ppu_lawyer-card .mdw__ppu_lawyer-fullname a {
+  color: #002856;
+  font-size: 16px;
+}
+
+.mdw__ppu_lawyer-card .mdw__ppu_lawyer-ocupation {
+  color: #002856;
+  font-size: 13px;
+}

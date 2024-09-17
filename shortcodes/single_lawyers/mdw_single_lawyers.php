@@ -201,3 +201,53 @@ function lawyer_posts_function()
 
   return $html;
 }
+
+add_shortcode('mdw_list_lawyers', 'mdw_list_lawyers_func');
+
+function mdw_list_lawyers_func()
+{
+  wp_enqueue_style('mdw-education-style', get_stylesheet_directory_uri() . '/shortcodes/single_lawyers/mdw_single_lawyers.css', array(), '1.0');
+
+  $lawyers = get_field('abogados');
+  $html = '';
+  $lawyersHTML = '';
+  if (! empty($lawyers) && ! is_wp_error($lawyers)) {
+    foreach ($lawyers as $lawyerId) {
+      $lawyerName = get_field('nombre', $lawyerId);
+      $lawyerLastname = get_field('apellido', $lawyerId);
+      $lawyerPhoto = get_the_post_thumbnail($lawyerId, 'medium');
+      $lawyerLink = get_the_permalink($lawyerId);
+      $lawyerGender = get_field('genero', $lawyerId);
+      $lawyerRol = mdw_get_gender_rol($lawyerId, $lawyerGender);
+
+      $lawyersHTML .= "
+        <div class='mdw__ppu_lawyer-card'>
+          <div class='mdw__ppu_lawyer-photo'><a href='$lawyerLink'>$lawyerPhoto</a></div>
+          <div class='mdw__ppu_lawyer-description'>
+            <h3 class='mdw__ppu_lawyer-fullname'><a href='$lawyerLink'>$lawyerName $lawyerLastname</a></h3>
+            <div class='mdw__ppu_lawyer-ocupation mdw-fw700 mdw-fup'>$lawyerRol</div>
+            <div class='mdw__ppu_lawyer-link'><a href='$lawyerLink'>Ver perfil</a></div>
+          </div>
+        </div>
+      ";
+    }
+    $html .= "
+      <div class='mdw__ppu_lawyers-content'>
+        $lawyersHTML
+      </div>
+    ";
+  }
+  return $html;
+}
+
+function mdw_get_gender_rol($lawyerId, $lawyerGender)
+{
+  $roles = get_the_terms($lawyerId, 'roles');
+  if (!empty($roles) && !is_wp_error($roles)) {
+    foreach ($roles as $rol) {
+      $rolFemale = get_field('rol_femenino', 'roles_' . $rol->term_id);
+      $rolGender = $lawyerGender['value'] === 'h' ? $rol->name : $rolFemale;
+      return $rolGender;
+    }
+  }
+}
