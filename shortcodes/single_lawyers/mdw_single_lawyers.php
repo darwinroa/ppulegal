@@ -149,6 +149,7 @@ function lawyer_posts_function()
 
   $args = array(
     'post_type' => 'ppulegal',
+    'post_per_page' => -1,
     'meta_query' => array(
       array(
         'key' => 'abogados',
