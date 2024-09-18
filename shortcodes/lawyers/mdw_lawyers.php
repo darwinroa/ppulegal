@@ -46,15 +46,15 @@ if (!function_exists('mdw_lawyers_function')) {
     $taxonomies = array(
       array(
         'slug' => 'areas-practica',
-        'name' => 'Áreas de Práctica'
+        'name' => pll_current_language() == 'es' ? 'Áreas de práctica' : 'Practice area'
       ),
       array(
         'slug' => 'pais',
-        'name' => 'País'
+        'name' => pll_current_language() == 'es' ? 'País' : 'Country'
       ),
       array(
         'slug'  => 'roles',
-        'name'  => 'Rol',
+        'name'  => pll_current_language() == 'es' ? 'Rol' : 'Role',
         'order' => $roles,
       )
     );

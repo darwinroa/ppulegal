@@ -78,9 +78,10 @@ function mdw_filter_options($taxonomy, $order)
  */
 function mdw_html_filter_select($cpt_slug, $cpt_name, $terms)
 {
+  $allText = pll_current_language() == 'es' ? 'Todos' : 'All';
   $html = "<select class='member-select-filter' name='{$cpt_slug}' id='{$cpt_slug}'>
     <option value='' selected disabled>$cpt_name</option>
-    <option value=''>All</option>";
+    <option value=''>$allText</option>";
   foreach ($terms as $term) :
     $html .= '<option value="' . $term->term_id . '">' . $term->name . '</option>';
   endforeach;
