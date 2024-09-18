@@ -68,6 +68,7 @@ jQuery(document).ready(function($) {
       data: {
         action: 'mdw_lawyer_ajax_filter',
         nonce: wp_ajax.nonce,
+        language: wp_ajax.language,
         page,
         practiceArea,
         country,

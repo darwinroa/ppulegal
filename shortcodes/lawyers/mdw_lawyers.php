@@ -10,6 +10,7 @@ if (!function_exists('mdw_lawyers_function')) {
       'ajax_url'            => admin_url('admin-ajax.php'),
       'nonce'               => wp_create_nonce('load_more_nonce'),
       'theme_directory_uri' => get_stylesheet_directory_uri(),
+      'language'            => pll_current_language('slug'), // Agrega el idioma actual
     ));
 
     /**
@@ -29,11 +30,12 @@ if (!function_exists('mdw_lawyers_function')) {
         'posts_per_page'  => $post_per_page,
         'orderby'         => 'title',
         'order'           => 'ASC',
+        'lang'            => pll_current_language('slug'), // Agrega el idioma actual
         'tax_query'       => array(
           array(
             'taxonomy'  => 'roles',
             'field'     => 'slug',
-            'terms'     => $rol['slug'],
+            'terms'     => pll_current_language() == 'es' ? $rol['slug'] : $rol['slug_en'],
           )
         )
       );
@@ -118,6 +120,7 @@ if (!function_exists('mdw_lawyer_ajax_filter')) {
   {
     check_ajax_referer('load_more_nonce', 'nonce');
     $page = $_POST['page'];
+    $language = $_POST['language'];
     $practice_area = isset($_POST['practiceArea']) ? sanitize_text_field($_POST['practiceArea']) : '';
     $country = isset($_POST['country']) ? sanitize_text_field($_POST['country']) : '';
     $rol = isset($_POST['rol']) ? sanitize_text_field($_POST['rol']) : '';
@@ -165,6 +168,7 @@ if (!function_exists('mdw_lawyer_ajax_filter')) {
         'posts_per_page'  => $post_per_page,
         'orderby'         => 'title',
         'order'           => 'ASC',
+        'lang'            => $language, // Agrega el idioma actual
         'tax_query'       => $tax_query,
         'paged'           => $page,
         's'               => $letter ? '' : $search,
@@ -182,11 +186,12 @@ if (!function_exists('mdw_lawyer_ajax_filter')) {
           'posts_per_page'  => $post_per_page,
           'orderby'         => 'title',
           'order'           => 'ASC',
+          'lang'            => $language, // Agrega el idioma actual
           'tax_query'       => array_merge($tax_query, array(
             array(
               'taxonomy'  => 'roles',
               'field'     => 'slug',
-              'terms'     => $rol['slug'],
+              'terms'     => $language == 'es' ? $rol['slug'] : $rol['slug_en'],
             )
           )),
           'paged'           => $page,
