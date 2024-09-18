@@ -164,10 +164,14 @@ function lawyer_posts_function()
 
   // Verificar si hay publicaciones relacionadas
   if ($query->have_posts()) {
-    $html .= '
-            <div id="mdw__lawyer_post-slider" class="swiper mdw__lawyer_post-slider">
-                <div class="swiper-wrapper">
-        ';
+    $PublicationTitle = pll_current_language() == 'es' ? 'Publicaciones' : 'Publications';
+    $html .= "
+            <div class='mdw__ppu_content-title'>
+              <h2 class='mdw__ppu_title'>$PublicationTitle</h2>
+            </div>
+            <div id='mdw__lawyer_post-slider' class='swiper mdw__lawyer_post-slider'>
+                <div class='swiper-wrapper'>
+        ";
 
     // Recorrer los posts y generar la salida
     while ($query->have_posts()) {
