@@ -15,6 +15,7 @@ function mdw_html_filter_form($taxonomies, $form_ID)
 
   // Añade el filtro por letras
   $letterFilter = mdw_html_letter_filter($form_ID);
+  $resetText = pll_current_language() == 'es' ? 'Limpiar' : 'Reset';
 
   $html = "
   <div class='mdw__content-filter'>
@@ -25,7 +26,7 @@ function mdw_html_filter_form($taxonomies, $form_ID)
     if ($terms = mdw_filter_options($taxonomy['slug'], $order)) $html .= mdw_html_filter_select($taxonomy['slug'], $taxonomy['name'], $terms);
   endforeach;
   $html .= $letterFilter;
-  $html .= "<button type='reset' id='mdw__button-reset' class='reset-buton'>Limpiar</button>";
+  $html .= "<button type='reset' id='mdw__button-reset' class='reset-buton'>$resetText</button>";
   $html .= "</form></div>";
   return $html;
 }
