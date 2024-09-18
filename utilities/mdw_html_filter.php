@@ -52,7 +52,7 @@ function mdw_filter_options($taxonomy, $order)
     $desired_order = array();
     foreach ($order as $item) {
       if (isset($item['slug'])) {
-        $desired_order[] = $item['slug'];
+        $desired_order[] = pll_current_language() == 'es' ? $item['slug'] : $item['slug_en'];
       }
     }
 
