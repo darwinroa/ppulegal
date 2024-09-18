@@ -146,6 +146,7 @@ function lawyer_posts_function()
   wp_enqueue_style('swiper-css', 'https://unpkg.com/swiper/swiper-bundle.min.css', array(), '8.4.8');
 
   $lawyerId = get_the_ID();
+  $html = '';
 
   $args = array(
     'post_type' => 'ppulegal',
@@ -163,7 +164,7 @@ function lawyer_posts_function()
 
   // Verificar si hay publicaciones relacionadas
   if ($query->have_posts()) {
-    $html = '
+    $html .= '
             <div id="mdw__lawyer_post-slider" class="swiper mdw__lawyer_post-slider">
                 <div class="swiper-wrapper">
         ';
@@ -238,6 +239,16 @@ function mdw_list_lawyers_func()
     ";
   }
   return $html;
+}
+
+add_shortcode('mdw_get_gender_lawyer_rol', 'mdw_get_gender_lawyer_rol_function');
+
+function mdw_get_gender_lawyer_rol_function()
+{
+  $lawyerId = get_the_ID();
+  $lawyerGender = get_field('genero');
+  $rol = mdw_get_gender_rol($lawyerId, $lawyerGender);
+  return $rol;
 }
 
 function mdw_get_gender_rol($lawyerId, $lawyerGender)
