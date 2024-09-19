@@ -85,6 +85,74 @@ if (!function_exists('mdw_lawyers_function')) {
   }
 }
 
+if (!function_exists('mdw_lawyers_practice_area_function')) {
+  add_shortcode('mdw_lawyers_practice_area', 'mdw_lawyers_practice_area_function');
+
+  function mdw_lawyers_practice_area_function()
+  {
+    wp_enqueue_style('mdw-lawyer-style', get_stylesheet_directory_uri() . '/shortcodes/lawyers/mdw_lawyers.css', array(), '1.0');
+
+    /**
+     * Aquí se optiene el Loop inicial al momento de cargar la web.
+     * Lo que se hace es realizar un query por cada rol de abogado
+     * Esto con la intención de poder agrupar a los abogados en 
+     * órden de prioridad por Rol y Alfabéticamente por su apellido
+     */
+    $post_per_page = -1;
+    $settintgs = get_page_by_path('settings', OBJECT, 'ppu-legal-settgins');
+    $settintgsID = $settintgs->ID;
+    $roles = get_field('prioridad_roles', $settintgsID);
+    $query_loop = '';
+    $currentPostId = get_the_ID();
+    $taxonomy = 'areas-practica';
+    $practiceAreaTerms = get_the_terms($currentPostId, $taxonomy);
+
+    $practiceAreaSlugs = [];
+    if ($practiceAreaTerms && !is_wp_error($practiceAreaTerms)) {
+      foreach ($practiceAreaTerms as $term) {
+        $practiceAreaSlugs[] = $term->slug; // Guarda los slugs de los términos
+      }
+    }
+
+    foreach ($roles as $rol) {
+      $args = array(
+        'post_type'       => 'bd-abogados',
+        'posts_per_page'  => $post_per_page,
+        'orderby'         => 'title',
+        'order'           => 'ASC',
+        'lang'            => pll_current_language('slug'), // Agrega el idioma actual
+        'tax_query'       => array(
+          array(
+            'taxonomy'  => 'roles',
+            'field'     => 'slug',
+            'terms'     => pll_current_language() == 'es' ? $rol['slug'] : $rol['slug_en'],
+          ),
+          array(
+            'taxonomy' => 'areas-practica', // Aquí agregas la taxonomía de área de práctica
+            'field'    => 'slug',
+            'terms'    => $practiceAreaSlugs, // Usa los slugs que obtuviste antes
+            'operator' => 'IN', // Puedes usar 'IN' para que coincidan con cualquiera de los términos
+          )
+        )
+      );
+      $query_loop .= mdw_query_lawyers_loop($args); // Obtiene el html del grid de todos los abogados
+    }
+    ob_start();
+    $html = '';
+    $html .= "
+      <div id='mdw__lawyers_section' class='mdw__lawyers_section'>
+        <div class='mdw__content_loop'>
+          <div class='mdw__content_loop-grid'>
+            $query_loop
+          </div>
+        </div>
+      </div>
+    ";
+    $html .= ob_get_clean();
+    return $html;
+  }
+}
+
 /**
  * Retorna el HTML del loop para la sección de Abogados
  * $args son los argumentos necesarios para el loop
