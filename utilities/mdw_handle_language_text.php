@@ -15,6 +15,7 @@ function mdw_handle_text_function($atts)
       'text_es'  => '',  // Texto para el idioma español
       'text_en'  => '',  // Texto para el idioma inglés
       'field_slug'   => false,  // Slug del campo personalizado
+      'term_slug'   => false,  // Slug de la taxonomía
     ),
     $atts
   );
@@ -22,12 +23,18 @@ function mdw_handle_text_function($atts)
   $text = '';  // Variable para almacenar el texto final
   $currentLanguage = pll_current_language();  // Obtener el idioma actual
   $fieldSlug = $attributes['field_slug'];
+  $termSlug = $attributes['term_slug'];
   $textES = $attributes['text_es'];
   $textEN = $attributes['text_en'];
   // Verificar si se proporciona un campo personalizado y si tiene valor
   if ($fieldSlug) {
     $field = get_field($fieldSlug);
     if (!empty($field) && !is_wp_error($field)) {
+      $text .= $currentLanguage == 'es' ? $textES : $textEN;
+    }
+  } elseif ($termSlug) {
+    $terms = get_the_terms(get_the_ID(), $termSlug);
+    if (!empty($terms) && !is_wp_error($terms)) {
       $text .= $currentLanguage == 'es' ? $textES : $textEN;
     }
   } else {
