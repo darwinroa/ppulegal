@@ -110,7 +110,7 @@ function ppu_custom_filter_shortcode()
 
   <form id="ppu-filter-form">
     <select name="practice_area">
-      <option value=""><?php _e('Seleccionar área de práctica', 'textdomain'); ?></option>
+      <option value=""><?php pll_current_language() == 'es' ? 'Seleccionar área de práctica' : 'Select practice area'; ?></option>
       <?php
       $practice_areas = get_terms(['taxonomy' => 'areas-practica', 'hide_empty' => true]);
       foreach ($practice_areas as $area): ?>
@@ -121,7 +121,7 @@ function ppu_custom_filter_shortcode()
     </select>
 
     <select name="country">
-      <option value=""><?php _e('Seleccionar País', 'textdomain'); ?></option>
+      <option value=""><?php pll_current_language() == 'es' ? 'Seleccionar país' : 'Select country'; ?></option>
       <?php
       $countries = get_terms(['taxonomy' => 'pais', 'hide_empty' => true]);
       foreach ($countries as $country): ?>
@@ -132,7 +132,7 @@ function ppu_custom_filter_shortcode()
     </select>
 
     <select name="year">
-      <option value=""><?php _e('Seleccionar año', 'textdomain'); ?></option>
+      <option value=""><?php pll_current_language() == 'es' ? 'Seleccionar año' : 'Select year'; ?></option>
       <?php
       $years = range(date('Y'), 2012);
       foreach ($years as $year): ?>
@@ -142,17 +142,13 @@ function ppu_custom_filter_shortcode()
       <?php endforeach; ?>
     </select>
 
-    <input type="text" name="search" placeholder="<?php _e('Buscar...', 'textdomain'); ?>">
+    <input type="text" name="search" placeholder="<?php pll_current_language() == 'es' ? 'Buscar...' : 'Search...'; ?>">
 
     <button type="submit"><?php _e('Buscar', 'textdomain'); ?></button>
   </form>
 
   <div id="ppu-filter-results" class="custom-grid"></div>
-  <button id="ppu-load-more" style="display:none;"><?php _e('Cargar más', 'textdomain'); ?></button>
-
-  <script>
-
-  </script>
+  <button id="ppu-load-more" style="display:none;"><?php pll_current_language() == 'es' ? 'Cargar más' : 'Load more'; ?></button>
 <?php
   return ob_get_clean();
 }
