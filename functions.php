@@ -40,7 +40,8 @@ add_action('wp_enqueue_scripts', 'hello_elementor_child_scripts_styles', 20);
 ////////////////////////////SHORTCODES/////////////////////////////////
 ///////////////////////////////////////////////////////////////////////
 require 'shortcodes/lawyers/mdw_lawyers.php'; // Abogados
-require 'shortcodes/single_lawyers/mdw_single_lawyers.php'; // Educación Abogados
+require 'shortcodes/single_lawyers/mdw_single_lawyers.php'; // single Abogados
+require 'shortcodes/ppulegal/mdw_ppulegal.php'; // Publicaciones PPU legal
 
 ///////////////////////////////////////////////////////////////////////
 ///////////////////////UTILIDADES GENRALES/////////////////////////////
